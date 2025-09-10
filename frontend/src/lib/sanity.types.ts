@@ -13,6 +13,9 @@ export interface Post {
     current: string;
   };
   publishedAt: string;
+  category: "news" | "features" | "security" | "updates" | "tips" | "industry";
+  tags?: string[];
+  isFeatured?: boolean;
   image?: {
     _type: "image";
     asset: {

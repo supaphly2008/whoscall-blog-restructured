@@ -20,6 +20,9 @@ export async function getPosts(): Promise<Post[]> {
       title,
       slug,
       publishedAt,
+      category,
+      tags,
+      isFeatured,
       image,
       body
     }
@@ -41,6 +44,9 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       title,
       slug,
       publishedAt,
+      category,
+      tags,
+      isFeatured,
       image,
       body
     }
@@ -49,4 +55,53 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   );
 
   return post;
+}
+
+// Function to fetch featured posts
+export async function getFeaturedPosts(): Promise<Post[]> {
+  const posts = await client.fetch<Post[]>(`
+    *[_type == "post" && isFeatured == true] | order(publishedAt desc) {
+      _id,
+      _type,
+      _createdAt,
+      _updatedAt,
+      _rev,
+      title,
+      slug,
+      publishedAt,
+      category,
+      tags,
+      isFeatured,
+      image,
+      body
+    }
+  `);
+
+  return posts;
+}
+
+// Function to fetch posts by category
+export async function getPostsByCategory(category: string): Promise<Post[]> {
+  const posts = await client.fetch<Post[]>(
+    `
+    *[_type == "post" && category == $category] | order(publishedAt desc) {
+      _id,
+      _type,
+      _createdAt,
+      _updatedAt,
+      _rev,
+      title,
+      slug,
+      publishedAt,
+      category,
+      tags,
+      isFeatured,
+      image,
+      body
+    }
+  `,
+    { category }
+  );
+
+  return posts;
 }

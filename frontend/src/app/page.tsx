@@ -6,7 +6,16 @@ import { client } from "@/sanity/client";
 const POSTS_QUERY = `*[
   _type == "post"
   && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
+]|order(publishedAt desc)[0...12]{
+  _id, 
+  title, 
+  slug, 
+  publishedAt,
+  category,
+  tags,
+  isFeatured,
+  image
+}`;
 
 const options = { next: { revalidate: 30 } };
 
@@ -36,14 +45,28 @@ export default async function IndexPage() {
               <article key={post._id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100">
                 <div className="p-6">
                   <Link href={`/${post.slug.current}`} className="block group">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">{post.category}</span>
+                      {post.isFeatured && <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">⭐ Featured</span>}
+                    </div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">{post.title}</h3>
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-gray-500 text-sm mb-3">
                       {new Date(post.publishedAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                       })}
                     </p>
+                    {post.tags && post.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {post.tags.slice(0, 3).map((tag, index) => (
+                          <span key={index} className="inline-flex items-center px-2 py-1 rounded text-xs bg-gray-100 text-gray-600">
+                            #{tag}
+                          </span>
+                        ))}
+                        {post.tags.length > 3 && <span className="text-xs text-gray-400">+{post.tags.length - 3} more</span>}
+                      </div>
+                    )}
                   </Link>
                 </div>
               </article>
