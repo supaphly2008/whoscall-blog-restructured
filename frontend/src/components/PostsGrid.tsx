@@ -34,7 +34,7 @@ export default function PostsGrid({ posts, categories }: PostsGridProps) {
 
   return (
     <>
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="flex flex-wrap gap-2 mb-8 justify-center">
         <button onClick={() => handleCategoryChange(null)} className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeCategory === null ? "bg-green-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}>
           View all
         </button>
