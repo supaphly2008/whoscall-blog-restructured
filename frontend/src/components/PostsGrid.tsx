@@ -8,14 +8,19 @@ import { urlFor } from "@/lib/sanity.client";
 
 interface PostsGridProps {
   posts: SanityDocument[];
-  categories: string[];
+  categories: Array<{
+    _id: string;
+    name: string;
+    slug: { current: string };
+    color: string;
+  }>;
 }
 
 export default function PostsGrid({ posts, categories }: PostsGridProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
 
-  const filteredPosts = activeCategory ? posts.filter((post) => post.category === activeCategory) : posts;
+  const filteredPosts = activeCategory ? posts.filter((post) => post.category?.name === activeCategory) : posts;
   const displayedPosts = showAll ? filteredPosts : filteredPosts.slice(0, 6);
 
   const handleCategoryChange = (category: string | null) => {
@@ -34,8 +39,8 @@ export default function PostsGrid({ posts, categories }: PostsGridProps) {
           View all
         </button>
         {categories.map((category) => (
-          <button key={category} onClick={() => handleCategoryChange(category)} className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${activeCategory === category ? "bg-green-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}>
-            {category}
+          <button key={category._id} onClick={() => handleCategoryChange(category.name)} className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${activeCategory === category.name ? "bg-green-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}>
+            {category.name}
           </button>
         ))}
       </div>
@@ -57,7 +62,7 @@ export default function PostsGrid({ posts, categories }: PostsGridProps) {
                 </div>
               )}
               <div className="p-6">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-3">{post.category}</span>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-3">{post.category?.name}</span>
                 <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">{post.title}</h3>
                 <p className="text-gray-500 text-sm">
                   {new Date(post.publishedAt).toLocaleDateString("en-US", {

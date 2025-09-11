@@ -5,7 +5,22 @@ import PortableText from "@/components/PortableText";
 import TableOfContents from "@/components/TableOfContents";
 import SocialShare from "@/components/SocialShare";
 
-const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`;
+const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
+  _id,
+  title,
+  slug,
+  publishedAt,
+  category->{
+    _id,
+    name,
+    slug,
+    color
+  },
+  tags,
+  isFeatured,
+  image,
+  body
+}`;
 
 const options = { next: { revalidate: 30 } };
 
@@ -35,7 +50,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             Blog
           </Link>
           <span className="mx-2 text-gray-400">&gt;</span>
-          <span className="text-green-600 capitalize">{post.category}</span>
+          <span className="text-green-600 capitalize">{post.category?.name}</span>
         </nav>
 
         {/* Header Section */}

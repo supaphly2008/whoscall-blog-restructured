@@ -13,7 +13,15 @@ export interface Post {
     current: string;
   };
   publishedAt: string;
-  category: "news" | "features" | "security" | "updates" | "tips" | "industry";
+  category: {
+    _id: string;
+    name: string;
+    slug: {
+      _type: "slug";
+      current: string;
+    };
+    color: string;
+  };
   tags?: string[];
   isFeatured?: boolean;
   image?: {

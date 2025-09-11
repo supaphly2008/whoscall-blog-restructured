@@ -14,7 +14,12 @@ const FEATURED_POSTS_QUERY = `*[
   title, 
   slug, 
   publishedAt,
-  category,
+  category->{
+    _id,
+    name,
+    slug,
+    color
+  },
   tags,
   isFeatured,
   image
@@ -29,18 +34,28 @@ const REGULAR_POSTS_QUERY = `*[
   title, 
   slug, 
   publishedAt,
-  category,
+  category->{
+    _id,
+    name,
+    slug,
+    color
+  },
   tags,
   isFeatured,
   image
 }`;
 
-const CATEGORIES_QUERY = `array::unique(*[_type == "post" && defined(category)].category)`;
+const CATEGORIES_QUERY = `*[_type == "category" && isActive == true]{
+  _id,
+  name,
+  slug,
+  color
+}`;
 
 const options = { next: { revalidate: 30 } };
 
 export default async function IndexPage() {
-  const [featuredPosts, regularPosts, categories] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, {}, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, {}, options), client.fetch<string[]>(CATEGORIES_QUERY, {}, options)]);
+  const [featuredPosts, regularPosts, categories] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, {}, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, {}, options), client.fetch<any[]>(CATEGORIES_QUERY, {}, options)]);
 
   return (
     <main className="min-h-screen bg-white">
@@ -86,7 +101,7 @@ export default async function IndexPage() {
                         </div>
                       )}
                       <div className="p-6">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-3">{featuredPosts[0].category}</span>
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-3">{featuredPosts[0].category?.name}</span>
                         <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">{featuredPosts[0].title}</h3>
                         <p className="text-gray-500 text-sm">
                           {new Date(featuredPosts[0].publishedAt).toLocaleDateString("en-US", {
@@ -121,7 +136,7 @@ export default async function IndexPage() {
                           </div>
                         )}
                         <div className="p-4 flex-1">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-2">{post.category}</span>
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-2">{post.category?.name}</span>
                           <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-green-600 transition-colors line-clamp-2">{post.title}</h3>
                           <p className="text-gray-500 text-xs">
                             {new Date(post.publishedAt).toLocaleDateString("en-US", {

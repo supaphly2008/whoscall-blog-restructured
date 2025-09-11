@@ -24,17 +24,11 @@ export const postType = defineType({
     }),
     defineField({
       name: "category",
-      type: "string",
+      title: "Category",
+      type: "reference",
+      to: [{ type: "category" }],
       options: {
-        list: [
-          { title: "News", value: "news" },
-          { title: "Features", value: "features" },
-          { title: "Security", value: "security" },
-          { title: "Updates", value: "updates" },
-          { title: "Tips & Tricks", value: "tips" },
-          { title: "Industry", value: "industry" },
-        ],
-        layout: "dropdown",
+        filter: "isActive == true",
       },
       validation: (rule) => rule.required(),
     }),
