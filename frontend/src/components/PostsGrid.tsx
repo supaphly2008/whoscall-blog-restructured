@@ -13,11 +13,18 @@ interface PostsGridProps {
 
 export default function PostsGrid({ posts, categories }: PostsGridProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   const filteredPosts = activeCategory ? posts.filter((post) => post.category === activeCategory) : posts;
+  const displayedPosts = showAll ? filteredPosts : filteredPosts.slice(0, 6);
 
   const handleCategoryChange = (category: string | null) => {
     setActiveCategory(category);
+    setShowAll(false); // Reset to show only 6 when changing category
+  };
+
+  const handleViewAll = () => {
+    setShowAll(true);
   };
 
   return (
@@ -34,7 +41,7 @@ export default function PostsGrid({ posts, categories }: PostsGridProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredPosts.map((post) => (
+        {displayedPosts.map((post) => (
           <article key={post._id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden">
             <Link href={`/${post.slug.current}`} className="block group">
               {/* Cover Image */}
@@ -72,9 +79,11 @@ export default function PostsGrid({ posts, categories }: PostsGridProps) {
         </div>
       )}
 
-      {filteredPosts.length > 0 && (
+      {filteredPosts.length > 6 && !showAll && (
         <div className="text-center mt-12">
-          <button className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">View all</button>
+          <button onClick={handleViewAll} className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+            View all ({filteredPosts.length} posts)
+          </button>
         </div>
       )}
     </>
