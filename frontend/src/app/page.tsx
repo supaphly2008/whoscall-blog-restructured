@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { type SanityDocument } from "next-sanity";
 
-import { client } from "@/sanity/client";
+import { client } from "@/lib/sanity.client";
 import PostsGrid from "@/components/PostsGrid";
 
 const FEATURED_POSTS_QUERY = `*[

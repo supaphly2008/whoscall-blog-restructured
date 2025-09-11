@@ -25,15 +25,22 @@ export interface Post {
     alt?: string;
   };
   body: Array<{
-    _type: "block";
+    _type: "block" | "figure";
     _key: string;
     style?: string;
-    children: Array<{
+    children?: Array<{
       _type: "span";
       _key: string;
       text: string;
       marks?: string[];
     }>;
+    // Figure type fields
+    asset?: {
+      _type: "reference";
+      _ref: string;
+    };
+    alt?: string;
+    caption?: string;
   }>;
 }
 
