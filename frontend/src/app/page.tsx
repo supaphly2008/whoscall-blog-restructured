@@ -2,6 +2,7 @@ import Link from "next/link";
 import { type SanityDocument } from "next-sanity";
 
 import { client } from "@/sanity/client";
+import PostsGrid from "@/components/PostsGrid";
 
 const FEATURED_POSTS_QUERY = `*[
   _type == "post"
@@ -33,10 +34,12 @@ const REGULAR_POSTS_QUERY = `*[
   image
 }`;
 
+const CATEGORIES_QUERY = `array::unique(*[_type == "post" && defined(category)].category)`;
+
 const options = { next: { revalidate: 30 } };
 
 export default async function IndexPage() {
-  const [featuredPosts, regularPosts] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, {}, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, {}, options)]);
+  const [featuredPosts, regularPosts, categories] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, {}, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, {}, options), client.fetch<string[]>(CATEGORIES_QUERY, {}, options)]);
 
   return (
     <main className="min-h-screen bg-white">
@@ -125,44 +128,7 @@ export default async function IndexPage() {
       {/* Latest Posts Section */}
       <section className="py-16">
         <div className="container mx-auto max-w-6xl px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {regularPosts.map((post) => (
-              <article key={post._id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden">
-                <Link href={`/${post.slug.current}`} className="block group">
-                  {/* Image placeholder */}
-                  <div className="h-48 bg-gray-200 flex items-center justify-center">
-                    <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                      <span className="text-gray-500 font-bold text-lg">W</span>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-3">{post.category}</span>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">{post.title}</h3>
-                    <p className="text-gray-500 text-sm">
-                      {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}{" "}
-                      • Whoscall
-                    </p>
-                  </div>
-                </Link>
-              </article>
-            ))}
-          </div>
-
-          {regularPosts.length === 0 && featuredPosts.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No posts available yet. Check back soon!</p>
-            </div>
-          )}
-
-          {regularPosts.length > 0 && (
-            <div className="text-center mt-12">
-              <button className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">View all</button>
-            </div>
-          )}
+          <PostsGrid posts={regularPosts} categories={categories} />
         </div>
       </section>
     </main>
