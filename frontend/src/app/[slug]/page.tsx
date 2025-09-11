@@ -28,7 +28,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   return (
     <main className="min-h-screen bg-white">
-      <div className="container mx-auto max-w-6xl p-8">
+      <div className="container mx-auto max-w-4xl p-8">
         {/* Breadcrumbs */}
         <nav className="mb-6">
           <Link href="/" className="text-gray-600 hover:text-gray-900">
@@ -57,22 +57,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         {/* Featured Image */}
         {postImageUrl && (
           <div className="mb-8">
-            <img src={postImageUrl} alt={post.title} className="w-full h-64 object-cover rounded-lg" />
+            <img src={postImageUrl} alt={post.title} className="w-full rounded-lg" />
           </div>
         )}
 
-        {/* Main Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Content */}
-          <div className="lg:col-span-3">
-            <div className="prose prose-lg max-w-none">{Array.isArray(post.body) && <PortableText content={post.body} />}</div>
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <TableOfContents content={post.body} />
-          </div>
-        </div>
+        {/* Main Content */}
+        <div className="prose prose-lg max-w-none">{Array.isArray(post.body) && <PortableText content={post.body} />}</div>
       </div>
     </main>
   );
