@@ -26,7 +26,7 @@ export const postEnType = defineType({
       name: "category",
       title: "Category",
       type: "reference",
-      to: [{ type: "category" }],
+      to: [{ type: "categoryEn" }],
       options: {
         filter: "isActive == true",
       },

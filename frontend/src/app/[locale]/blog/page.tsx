@@ -46,7 +46,7 @@ const REGULAR_POSTS_QUERY = `*[
   image
 }`;
 
-const CATEGORIES_QUERY = `*[_type == "category" && isActive == true]{
+const CATEGORIES_QUERY = `*[_type == $categoryDocumentType && isActive == true]{
   _id,
   name,
   slug,
@@ -61,8 +61,13 @@ export default async function IndexPage({ params }: { params: Promise<{ locale: 
 
   // Map locale to document type
   const documentType = locale === "en" ? "postEn" : locale === "zh-hant" ? "postZhHant" : "post";
+  const categoryDocumentType = locale === "en" ? "categoryEn" : locale === "zh-hant" ? "categoryZhHant" : "category";
 
-  const [featuredPosts, regularPosts, categories] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, { documentType }, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, { documentType }, options), client.fetch<any[]>(CATEGORIES_QUERY, {}, options)]);
+  const [featuredPosts, regularPosts, categories] = await Promise.all([
+    client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, { documentType }, options),
+    client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, { documentType }, options),
+    client.fetch<any[]>(CATEGORIES_QUERY, { categoryDocumentType }, options),
+  ]);
 
   return (
     <main className="min-h-screen bg-white">

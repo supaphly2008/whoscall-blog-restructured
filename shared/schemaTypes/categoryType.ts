@@ -2,7 +2,7 @@ import { defineField, defineType } from "sanity";
 
 export const categoryType = defineType({
   name: "category",
-  title: "Category",
+  title: "Category (Legacy)",
   type: "document",
   fields: [
     defineField({

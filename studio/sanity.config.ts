@@ -36,8 +36,27 @@ export default defineConfig({
               ),
             // Separator
             S.divider(),
+            // Category Types Section
+            S.listItem()
+              .title('Categories')
+              .child(
+                S.list()
+                  .title('Categories')
+                  .items([
+                    S.listItem()
+                      .title('Category (en)')
+                      .child(S.documentTypeList('categoryEn').title('English Categories')),
+                    S.listItem()
+                      .title('Category (zh-hant)')
+                      .child(S.documentTypeList('categoryZhHant').title('Chinese Categories')),
+                    S.listItem()
+                      .title('Category (Legacy)')
+                      .child(S.documentTypeList('category').title('Legacy Categories')),
+                  ]),
+              ),
+            // Separator
+            S.divider(),
             // Other Content Types
-            S.documentTypeListItem('category').title('Categories'),
             S.documentTypeListItem('figure').title('Figures'),
           ]),
     }),

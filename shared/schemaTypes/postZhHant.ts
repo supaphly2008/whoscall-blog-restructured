@@ -26,7 +26,7 @@ export const postZhHantType = defineType({
       name: "category",
       title: "Category",
       type: "reference",
-      to: [{ type: "category" }],
+      to: [{ type: "categoryZhHant" }],
       options: {
         filter: "isActive == true",
       },

@@ -240,3 +240,23 @@ export async function getPostsByCategoryAndLocale(category: string, locale: stri
   // Add locale field for consistency
   return posts.map((post) => ({ ...post, locale }));
 }
+
+// Function to fetch categories by locale
+export async function getCategoriesByLocale(locale: string): Promise<any[]> {
+  // Map locale to document type
+  const documentType = locale === "en" ? "categoryEn" : locale === "zh-hant" ? "categoryZhHant" : "category";
+
+  const categories = await client.fetch<any[]>(
+    `
+    *[_type == $documentType && isActive == true] | order(name asc) {
+      _id,
+      name,
+      slug,
+      color
+    }
+  `,
+    { documentType }
+  );
+
+  return categories;
+}
