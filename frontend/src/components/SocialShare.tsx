@@ -1,12 +1,20 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 interface SocialShareProps {
   title: string;
   url: string;
 }
 
 export default function SocialShare({ title, url }: SocialShareProps) {
-  const shareUrl = typeof window !== "undefined" ? window.location.href : url;
+  const [shareUrl, setShareUrl] = useState(url);
+
+  useEffect(() => {
+    // Update shareUrl to current window location after hydration
+    setShareUrl(window.location.href);
+  }, []);
+
   const encodedTitle = encodeURIComponent(title);
   const encodedUrl = encodeURIComponent(shareUrl);
 
