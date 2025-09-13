@@ -71,7 +71,7 @@ export default async function IndexPage({ params }: { params: Promise<{ locale: 
 
       {/* Featured Articles Section */}
       {featuredPosts.length > 0 && (
-        <section className="py-16 bg-gray-50">
+        <section className="py-16">
           <div className="container mx-auto max-w-6xl px-6">
             <div className="mb-12">
               <h2 className="text-3xl font-bold text-gray-900">{t("featuredArticles")}</h2>
