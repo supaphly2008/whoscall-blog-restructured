@@ -10,7 +10,39 @@ export default defineConfig({
   projectId: 'b5nfliuf',
   dataset: 'production',
 
-  plugins: [structureTool(), visionTool()],
+  plugins: [
+    structureTool({
+      structure: (S) =>
+        S.list()
+          .title('Content')
+          .items([
+            // Post Types Section
+            S.listItem()
+              .title('Posts')
+              .child(
+                S.list()
+                  .title('Posts')
+                  .items([
+                    S.listItem()
+                      .title('Post (en)')
+                      .child(S.documentTypeList('postEn').title('English Posts')),
+                    S.listItem()
+                      .title('Post (zh-hant)')
+                      .child(S.documentTypeList('postZhHant').title('Chinese Posts')),
+                    S.listItem()
+                      .title('Post (Legacy)')
+                      .child(S.documentTypeList('post').title('Legacy Posts')),
+                  ]),
+              ),
+            // Separator
+            S.divider(),
+            // Other Content Types
+            S.documentTypeListItem('category').title('Categories'),
+            S.documentTypeListItem('figure').title('Figures'),
+          ]),
+    }),
+    visionTool(),
+  ],
 
   schema: {
     types: schemaTypes,
