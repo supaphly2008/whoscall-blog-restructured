@@ -7,6 +7,7 @@ export interface Post {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  locale: string;
   title: string;
   slug: {
     _type: "slug";

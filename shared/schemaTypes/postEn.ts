@@ -1,25 +1,10 @@
 import { defineField, defineType } from "sanity";
 
-export const postType = defineType({
-  name: "post",
-  title: "Post (Legacy)",
+export const postEnType = defineType({
+  name: "postEn",
+  title: "Post (en)",
   type: "document",
   fields: [
-    defineField({
-      name: "locale",
-      type: "string",
-      title: "Language/Locale",
-      description: "Select the language for this post",
-      options: {
-        list: [
-          { title: "English", value: "en" },
-          { title: "繁體中文", value: "zh-hant" },
-        ],
-        layout: "radio",
-      },
-      validation: (rule) => rule.required(),
-      initialValue: "en",
-    }),
     defineField({
       name: "title",
       type: "string",
@@ -75,18 +60,16 @@ export const postType = defineType({
   preview: {
     select: {
       title: "title",
-      locale: "locale",
       publishedAt: "publishedAt",
       media: "image",
     },
     prepare(selection) {
-      const { title, locale, publishedAt } = selection;
-      const localeLabel = locale === "en" ? "🇺🇸 EN" : "🇹🇼 ZH";
+      const { title, publishedAt } = selection;
       const date = new Date(publishedAt).toLocaleDateString();
 
       return {
         title: title,
-        subtitle: `${localeLabel} • ${date}`,
+        subtitle: `🇺🇸 English • ${date}`,
         media: selection.media,
       };
     },

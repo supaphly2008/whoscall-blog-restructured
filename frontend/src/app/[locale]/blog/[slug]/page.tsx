@@ -4,7 +4,7 @@ import Link from "next/link";
 import PortableText from "@/components/PortableText";
 import SocialShare from "@/components/SocialShare";
 
-const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
+const POST_QUERY = `*[_type == $documentType && slug.current == $slug][0]{
   _id,
   title,
   slug,
@@ -23,10 +23,13 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
 
 const options = { next: { revalidate: 30 } };
 
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = await client.fetch<SanityDocument>(POST_QUERY, { slug }, options);
-  const postImageUrl = post.image ? urlFor(post.image).width(800).height(400).fit("crop").url() : null;
+export default async function PostPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
+  const { locale, slug } = await params;
+
+  // Map locale to document type
+  const documentType = locale === "en" ? "postEn" : locale === "zh-hant" ? "postZhHant" : "post";
+
+  const post = await client.fetch<SanityDocument>(POST_QUERY, { slug, documentType }, options);
 
   if (!post) {
     return (
@@ -40,6 +43,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       </main>
     );
   }
+
+  const postImageUrl = post.image ? urlFor(post.image).width(800).height(400).fit("crop").url() : null;
 
   return (
     <main className="min-h-screen bg-white">

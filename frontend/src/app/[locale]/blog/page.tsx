@@ -7,7 +7,7 @@ import { client, urlFor } from "@/lib/sanity.client";
 import PostsGrid from "@/components/PostsGrid";
 
 const FEATURED_POSTS_QUERY = `*[
-  _type == "post"
+  _type == $documentType
   && defined(slug.current)
   && isFeatured == true
 ]|order(publishedAt desc)[0...4]{
@@ -27,7 +27,7 @@ const FEATURED_POSTS_QUERY = `*[
 }`;
 
 const REGULAR_POSTS_QUERY = `*[
-  _type == "post"
+  _type == $documentType
   && defined(slug.current)
   && isFeatured != true
 ]|order(publishedAt desc)[0...8]{
@@ -58,7 +58,11 @@ const options = { next: { revalidate: 30 } };
 export default async function IndexPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations("blog");
-  const [featuredPosts, regularPosts, categories] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, {}, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, {}, options), client.fetch<any[]>(CATEGORIES_QUERY, {}, options)]);
+
+  // Map locale to document type
+  const documentType = locale === "en" ? "postEn" : locale === "zh-hant" ? "postZhHant" : "post";
+
+  const [featuredPosts, regularPosts, categories] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, { documentType }, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, { documentType }, options), client.fetch<any[]>(CATEGORIES_QUERY, {}, options)]);
 
   return (
     <main className="min-h-screen bg-white">
