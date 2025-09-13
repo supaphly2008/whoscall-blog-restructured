@@ -4,8 +4,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
-import ConditionalHeader from "@/components/ConditionalHeader";
-import ConditionalFooter from "@/components/ConditionalFooter";
+
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,9 +39,9 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <ConditionalHeader />
+          <Header />
           {children}
-          <ConditionalFooter />
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>
