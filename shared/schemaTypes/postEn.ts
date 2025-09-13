@@ -13,7 +13,13 @@ export const postEnType = defineType({
     defineField({
       name: "slug",
       type: "slug",
-      options: { source: "title" },
+      options: {
+        source: "title",
+        slugify: async (input, schema, context) => {
+          const { generateUniqueSlug } = await import("../utils/slugify");
+          return generateUniqueSlug(input, schema.name, context.getClient({ apiVersion: "2024-01-01" }));
+        },
+      },
       validation: (rule) => rule.required(),
     }),
     defineField({

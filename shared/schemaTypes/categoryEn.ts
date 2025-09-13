@@ -13,7 +13,13 @@ export const categoryEnType = defineType({
     defineField({
       name: "slug",
       type: "slug",
-      options: { source: "name" },
+      options: {
+        source: "name",
+        slugify: async (input, schema, context) => {
+          const { generateUniqueSlug } = await import("../utils/slugify");
+          return generateUniqueSlug(input, schema.name, context.getClient({ apiVersion: "2024-01-01" }));
+        },
+      },
       validation: (rule) => rule.required(),
     }),
     defineField({
