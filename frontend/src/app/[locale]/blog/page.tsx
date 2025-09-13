@@ -54,7 +54,8 @@ const CATEGORIES_QUERY = `*[_type == "category" && isActive == true]{
 
 const options = { next: { revalidate: 30 } };
 
-export default async function IndexPage() {
+export default async function IndexPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const [featuredPosts, regularPosts, categories] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, {}, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, {}, options), client.fetch<any[]>(CATEGORIES_QUERY, {}, options)]);
 
   return (
@@ -79,7 +80,7 @@ export default async function IndexPage() {
               <div className="lg:col-span-2">
                 {featuredPosts[0] && (
                   <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden">
-                    <Link href={`/${featuredPosts[0].slug.current}`} className="block group">
+                    <Link href={`/${locale}/${featuredPosts[0].slug.current}`} className="block group">
                       {/* Featured Image */}
                       {featuredPosts[0].image ? (
                         <div className="h-64 relative overflow-hidden">
@@ -128,7 +129,7 @@ export default async function IndexPage() {
               <div className="space-y-6">
                 {featuredPosts.slice(1, 4).map((post) => (
                   <article key={post._id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden">
-                    <Link href={`/${post.slug.current}`} className="block group">
+                    <Link href={`/${locale}/${post.slug.current}`} className="block group">
                       <div className="flex">
                         {/* Sidebar Image */}
                         {post.image ? (
@@ -167,7 +168,7 @@ export default async function IndexPage() {
       {/* Latest Posts Section */}
       <section className="py-16">
         <div className="container mx-auto max-w-6xl px-6">
-          <PostsGrid posts={regularPosts} categories={categories} />
+          <PostsGrid posts={regularPosts} categories={categories} locale={locale} />
         </div>
       </section>
     </main>

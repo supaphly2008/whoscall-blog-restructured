@@ -14,9 +14,10 @@ interface PostsGridProps {
     slug: { current: string };
     color: string;
   }>;
+  locale: string;
 }
 
-export default function PostsGrid({ posts, categories }: PostsGridProps) {
+export default function PostsGrid({ posts, categories, locale }: PostsGridProps) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
 
@@ -48,7 +49,7 @@ export default function PostsGrid({ posts, categories }: PostsGridProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {displayedPosts.map((post) => (
           <article key={post._id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden">
-            <Link href={`/${post.slug.current}`} className="block group">
+            <Link href={`/${locale}/${post.slug.current}`} className="block group">
               {/* Cover Image */}
               {post.image ? (
                 <div className="h-48 relative overflow-hidden">
