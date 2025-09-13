@@ -52,7 +52,7 @@ export default function PostsGrid({ posts, categories }: PostsGridProps) {
               {/* Cover Image */}
               {post.image ? (
                 <div className="h-48 relative overflow-hidden">
-                  <Image src={urlFor(post.image).width(400).height(200).fit("crop").url()} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image src={urlFor(post.image).width(400).height(200).fit("crop").url()} alt={post.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
               ) : (
                 <div className="h-48 bg-gray-200 flex items-center justify-center">

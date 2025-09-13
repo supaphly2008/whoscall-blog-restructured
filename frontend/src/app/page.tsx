@@ -83,7 +83,14 @@ export default async function IndexPage() {
                       {/* Featured Image */}
                       {featuredPosts[0].image ? (
                         <div className="h-64 relative overflow-hidden">
-                          <Image src={urlFor(featuredPosts[0].image).width(600).height(300).fit("crop").url()} alt={featuredPosts[0].title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                          <Image
+                            src={urlFor(featuredPosts[0].image).width(600).height(300).fit("crop").url()}
+                            alt={featuredPosts[0].title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            priority
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
                           {/* New badge */}
                           <div className="absolute top-4 right-4">
                             <div className="bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">N</div>
@@ -126,7 +133,7 @@ export default async function IndexPage() {
                         {/* Sidebar Image */}
                         {post.image ? (
                           <div className="w-24 h-24 relative flex-shrink-0 overflow-hidden">
-                            <Image src={urlFor(post.image).width(100).height(100).fit("crop").url()} alt={post.title} fill className="object-cover" />
+                            <Image src={urlFor(post.image).width(100).height(100).fit("crop").url()} alt={post.title} fill sizes="(max-width: 768px) 100px, 100px" className="object-cover" />
                           </div>
                         ) : (
                           <div className="w-24 h-24 bg-gray-200 flex items-center justify-center flex-shrink-0">

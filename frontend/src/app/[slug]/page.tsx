@@ -2,7 +2,6 @@ import { type SanityDocument } from "next-sanity";
 import { client, urlFor } from "@/lib/sanity.client";
 import Link from "next/link";
 import PortableText from "@/components/PortableText";
-import TableOfContents from "@/components/TableOfContents";
 import SocialShare from "@/components/SocialShare";
 
 const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
@@ -25,7 +24,8 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
 const options = { next: { revalidate: 30 } };
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const post = await client.fetch<SanityDocument>(POST_QUERY, await params, options);
+  const { slug } = await params;
+  const post = await client.fetch<SanityDocument>(POST_QUERY, { slug }, options);
   const postImageUrl = post.image ? urlFor(post.image).width(800).height(400).fit("crop").url() : null;
 
   if (!post) {
@@ -65,7 +65,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               })}{" "}
               • Whoscall
             </p>
-            <SocialShare title={post.title} url={`/blog/${post.slug.current}`} />
+            <SocialShare title={post.title} url={`/${post.slug.current}`} />
           </div>
         </div>
 
