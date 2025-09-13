@@ -54,10 +54,6 @@ export default defineConfig({
                       .child(S.documentTypeList('category').title('Legacy Categories')),
                   ]),
               ),
-            // Separator
-            S.divider(),
-            // Other Content Types
-            S.documentTypeListItem('figure').title('Figures'),
           ]),
     }),
     visionTool(),

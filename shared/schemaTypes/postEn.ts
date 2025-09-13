@@ -60,7 +60,31 @@ export const postEnType = defineType({
     defineField({
       name: "body",
       type: "array",
-      of: [{ type: "block" }, { type: "figure" }],
+      of: [
+        { type: "block" },
+        {
+          type: "image",
+          name: "inlineImage",
+          title: "Inline Image",
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alt Text",
+              description: "Alternative text for accessibility",
+            },
+            {
+              name: "caption",
+              type: "string",
+              title: "Caption",
+              description: "Optional caption for the image",
+            },
+          ],
+        },
+      ],
     }),
   ],
   preview: {

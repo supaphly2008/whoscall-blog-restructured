@@ -16,7 +16,7 @@ const components = {
         </div>
       );
     },
-    figure: ({ value }: any) => {
+    inlineImage: ({ value }: any) => {
       if (!value?.asset?._ref) {
         return null;
       }
