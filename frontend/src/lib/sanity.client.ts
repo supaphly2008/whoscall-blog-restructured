@@ -251,8 +251,7 @@ export async function getCategoriesByLocale(locale: string): Promise<any[]> {
     *[_type == $documentType && isActive == true] | order(name asc) {
       _id,
       name,
-      slug,
-      color
+      slug
     }
   `,
     { documentType }

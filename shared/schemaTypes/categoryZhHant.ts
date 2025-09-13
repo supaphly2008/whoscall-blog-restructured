@@ -23,13 +23,6 @@ export const categoryZhHantType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "color",
-      type: "string",
-      title: "Color",
-      description: "Hex color code for the category (e.g., #3B82F6)",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
       name: "isActive",
       type: "boolean",
       title: "Active",
@@ -40,16 +33,15 @@ export const categoryZhHantType = defineType({
   preview: {
     select: {
       title: "name",
-      color: "color",
       isActive: "isActive",
     },
     prepare(selection) {
-      const { title, color, isActive } = selection;
+      const { title, isActive } = selection;
       const status = isActive ? "✅" : "❌";
 
       return {
         title: title,
-        subtitle: `🇹🇼 繁體中文 • ${status} • ${color}`,
+        subtitle: `🇹🇼 繁體中文 • ${status}`,
       };
     },
   },

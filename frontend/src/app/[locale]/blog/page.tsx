@@ -49,8 +49,7 @@ const REGULAR_POSTS_QUERY = `*[
 const CATEGORIES_QUERY = `*[_type == $categoryDocumentType && isActive == true]{
   _id,
   name,
-  slug,
-  color
+  slug
 }`;
 
 const options = { next: { revalidate: 30 } };
