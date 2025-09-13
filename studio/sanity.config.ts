@@ -24,10 +24,10 @@ export default defineConfig({
                   .title('Posts')
                   .items([
                     S.listItem()
-                      .title('Post (en)')
+                      .title('🇺🇸 Post (en)')
                       .child(S.documentTypeList('postEn').title('English Posts')),
                     S.listItem()
-                      .title('Post (zh-hant)')
+                      .title('🇹🇼 Post (zh-hant)')
                       .child(S.documentTypeList('postZhHant').title('Chinese Posts')),
                     S.listItem()
                       .title('Post (Legacy)')
@@ -44,10 +44,10 @@ export default defineConfig({
                   .title('Categories')
                   .items([
                     S.listItem()
-                      .title('Category (en)')
+                      .title('🇺🇸 Category (en)')
                       .child(S.documentTypeList('categoryEn').title('English Categories')),
                     S.listItem()
-                      .title('Category (zh-hant)')
+                      .title('🇹🇼 Category (zh-hant)')
                       .child(S.documentTypeList('categoryZhHant').title('Chinese Categories')),
                     S.listItem()
                       .title('Category (Legacy)')

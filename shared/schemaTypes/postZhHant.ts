@@ -4,6 +4,7 @@ export const postZhHantType = defineType({
   name: "postZhHant",
   title: "Post (zh-hant)",
   type: "document",
+  icon: () => "🇹🇼",
   fields: [
     defineField({
       name: "title",

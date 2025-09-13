@@ -4,6 +4,7 @@ export const postEnType = defineType({
   name: "postEn",
   title: "Post (en)",
   type: "document",
+  icon: () => "🇺🇸",
   fields: [
     defineField({
       name: "title",

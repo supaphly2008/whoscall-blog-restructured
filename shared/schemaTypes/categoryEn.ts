@@ -4,6 +4,7 @@ export const categoryEnType = defineType({
   name: "categoryEn",
   title: "Category (en)",
   type: "document",
+  icon: () => "🇺🇸",
   fields: [
     defineField({
       name: "name",

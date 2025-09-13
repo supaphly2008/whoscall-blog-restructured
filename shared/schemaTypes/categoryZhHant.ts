@@ -4,6 +4,7 @@ export const categoryZhHantType = defineType({
   name: "categoryZhHant",
   title: "Category (zh-hant)",
   type: "document",
+  icon: () => "🇹🇼",
   fields: [
     defineField({
       name: "name",
