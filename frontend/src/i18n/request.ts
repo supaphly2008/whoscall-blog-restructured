@@ -10,12 +10,14 @@ export default getRequestConfig(async ({ locale }) => {
     const pathname = (await headersList).get("x-pathname") || "";
 
     // Extract locale from pathname like /en/blog -> en
-    const localeMatch = pathname.match(/^\/([a-z]{2})/);
+    const localeMatch = pathname.match(/^\/([a-z-]+)/);
     locale = localeMatch?.[1] || "en";
   }
 
+  // Validate locale and fallback to 'en' if invalid
   if (!locales.includes(locale as any)) {
-    locale = "en"; // fallback
+    console.log(`Invalid locale '${locale}' detected, falling back to 'en'`);
+    locale = "en";
   }
 
   return {
