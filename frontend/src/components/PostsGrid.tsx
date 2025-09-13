@@ -49,7 +49,7 @@ export default function PostsGrid({ posts, categories, locale }: PostsGridProps)
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {displayedPosts.map((post) => (
           <article key={post._id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden">
-            <Link href={`/${locale}/${post.slug.current}`} className="block group">
+            <Link href={`/${locale}/blog/${post.slug.current}`} className="block group">
               {/* Cover Image */}
               {post.image ? (
                 <div className="h-48 relative overflow-hidden">

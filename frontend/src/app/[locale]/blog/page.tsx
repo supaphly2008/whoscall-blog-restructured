@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { type SanityDocument } from "next-sanity";
+import { getTranslations } from "next-intl/server";
 
 import { client, urlFor } from "@/lib/sanity.client";
 import PostsGrid from "@/components/PostsGrid";
@@ -56,6 +57,7 @@ const options = { next: { revalidate: 30 } };
 
 export default async function IndexPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  const t = await getTranslations("blog");
   const [featuredPosts, regularPosts, categories] = await Promise.all([client.fetch<SanityDocument[]>(FEATURED_POSTS_QUERY, {}, options), client.fetch<SanityDocument[]>(REGULAR_POSTS_QUERY, {}, options), client.fetch<any[]>(CATEGORIES_QUERY, {}, options)]);
 
   return (
@@ -63,7 +65,7 @@ export default async function IndexPage({ params }: { params: Promise<{ locale: 
       {/* Hero Section */}
       <section className="py-16">
         <div className="container mx-auto max-w-6xl px-6">
-          <h1 className="text-4xl font-bold text-gray-900">Whoscall blog</h1>
+          <h1 className="text-4xl font-bold text-gray-900">{t("title")}</h1>
         </div>
       </section>
 
@@ -72,7 +74,7 @@ export default async function IndexPage({ params }: { params: Promise<{ locale: 
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto max-w-6xl px-6">
             <div className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900">Featured articles</h2>
+              <h2 className="text-3xl font-bold text-gray-900">{t("featuredArticles")}</h2>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -80,7 +82,7 @@ export default async function IndexPage({ params }: { params: Promise<{ locale: 
               <div className="lg:col-span-2">
                 {featuredPosts[0] && (
                   <article className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden">
-                    <Link href={`/${locale}/${featuredPosts[0].slug.current}`} className="block group">
+                    <Link href={`/${locale}/blog/${featuredPosts[0].slug.current}`} className="block group">
                       {/* Featured Image */}
                       {featuredPosts[0].image ? (
                         <div className="h-64 relative overflow-hidden">
@@ -129,7 +131,7 @@ export default async function IndexPage({ params }: { params: Promise<{ locale: 
               <div className="space-y-6">
                 {featuredPosts.slice(1, 4).map((post) => (
                   <article key={post._id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100 overflow-hidden">
-                    <Link href={`/${locale}/${post.slug.current}`} className="block group">
+                    <Link href={`/${locale}/blog/${post.slug.current}`} className="block group">
                       <div className="flex">
                         {/* Sidebar Image */}
                         {post.image ? (

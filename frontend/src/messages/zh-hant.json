@@ -1,0 +1,49 @@
+{
+  "navigation": {
+    "home": "首頁",
+    "blog": "部落格",
+    "features": "功能",
+    "premium": "進階版",
+    "enterprise": "企業版",
+    "partners": "合作夥伴",
+    "download": "下載"
+  },
+  "blog": {
+    "title": "Whoscall 部落格",
+    "featuredArticles": "精選文章",
+    "latestPosts": "最新文章",
+    "viewAll": "查看全部",
+    "readMore": "閱讀更多",
+    "publishedOn": "發布於",
+    "by": "作者",
+    "category": "分類",
+    "tags": "標籤",
+    "backToPosts": "← 返回文章列表",
+    "postNotFound": "找不到文章",
+    "noPostsFound": "此分類中沒有找到文章。"
+  },
+  "common": {
+    "whoscall": "Whoscall",
+    "loading": "載入中...",
+    "error": "錯誤",
+    "retry": "重試"
+  },
+  "partners": {
+    "adsPartners": "廣告合作夥伴",
+    "gifting": "禮品"
+  },
+  "footer": {
+    "product": "產品",
+    "company": "公司",
+    "support": "支援",
+    "aboutUs": "關於我們",
+    "careers": "職涯機會",
+    "press": "媒體中心",
+    "helpCenter": "說明中心",
+    "contactUs": "聯絡我們",
+    "privacyPolicy": "隱私權政策",
+    "termsOfService": "服務條款",
+    "copyright": "© 2024 Whoscall. 版權所有。",
+    "description": "透過 Whoscall 先進的來電顯示和垃圾訊息防護技術，保護您的安全。"
+  }
+}

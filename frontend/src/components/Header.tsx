@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
   const [isPartnersOpen, setIsPartnersOpen] = useState(false);
+  const t = useTranslations("navigation");
+  const tPartners = useTranslations("partners");
 
   return (
     <header className="sticky top-0 z-50 bg-white px-6 py-4 shadow-sm">
@@ -20,19 +24,19 @@ export default function Header() {
         {/* Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link href="/features" className="text-gray-700 hover:text-green-600 transition-colors">
-            Features
+            {t("features")}
           </Link>
           <Link href="/premium" className="text-gray-700 hover:text-green-600 transition-colors">
-            Premium
+            {t("premium")}
           </Link>
           <Link href="/enterprise" className="text-gray-700 hover:text-green-600 transition-colors">
-            Enterprise
+            {t("enterprise")}
           </Link>
 
           {/* Partners Dropdown */}
           <div className="relative" onMouseEnter={() => setIsPartnersOpen(true)} onMouseLeave={() => setIsPartnersOpen(false)}>
             <button className="flex items-center space-x-1 text-gray-700 hover:text-green-600 transition-colors">
-              <span>Partners</span>
+              <span>{t("partners")}</span>
               <svg className={`w-4 h-4 transition-transform ${isPartnersOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -41,22 +45,25 @@ export default function Header() {
             {isPartnersOpen && (
               <div className="absolute top-full left-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50" onMouseEnter={() => setIsPartnersOpen(true)} onMouseLeave={() => setIsPartnersOpen(false)}>
                 <Link href="/partners/ads" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
-                  Ads Partners
+                  {tPartners("adsPartners")}
                 </Link>
                 <Link href="/partners/Gifting" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">
-                  Gifting
+                  {tPartners("gifting")}
                 </Link>
               </div>
             )}
           </div>
 
           <Link href="/blog" className="text-gray-700 hover:text-green-600 transition-colors">
-            Blog
+            {t("blog")}
           </Link>
         </nav>
 
-        {/* Download Button */}
-        <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">Download</button>
+        {/* Language Switcher and Download Button */}
+        <div className="flex items-center space-x-4">
+          <LanguageSwitcher />
+          <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">{t("download")}</button>
+        </div>
 
         {/* Mobile Menu Button */}
         <button className="md:hidden p-2">
